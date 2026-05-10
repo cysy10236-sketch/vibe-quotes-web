@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日一言</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans SC"', '"Inter"', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quote-text {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .category-btn {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .category-btn.active {
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: white;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+      border-color: transparent;
+    }
+    .copy-btn.copied {
+      background: linear-gradient(135deg, #10b981, #059669) !important;
+      border-color: transparent !important;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in {
+      animation: fadeInUp 0.4s ease forwards;
+    }
+    .glass-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.4));
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(148, 163, 184, 0.08);
+    }
+    .accent-line {
+      background: linear-gradient(to bottom, #6366f1, #a855f7, #ec4899);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-white">
+
+  <!-- Background decorative orbs -->
+  <div class="fixed top-1/3 -left-32 w-96 h-96 bg-indigo-600/20 rounded-full blur-[128px] pointer-events-none"></div>
+  <div class="fixed bottom-1/4 -right-32 w-96 h-96 bg-purple-600/20 rounded-full blur-[128px] pointer-events-none"></div>
+
+  <!-- Main Container -->
+  <main class="relative w-full max-w-2xl mx-auto px-4 py-8 md:py-12">
+
+    <!-- Header -->
+    <header class="text-center mb-8 md:mb-12">
+      <div class="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 mb-4 shadow-lg shadow-indigo-500/25">
+        <i class="fa-regular fa-sun text-2xl md:text-3xl"></i>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-bold tracking-tight mb-2">每日一言</h1>
+      <p class="text-sm text-white/40">每天一点灵感，让生活更有温度</p>
+    </header>
+
+    <!-- Quote Card -->
+    <div class="glass-card relative rounded-3xl p-8 md:p-10 mb-8 overflow-hidden" id="quote-card">
+      <!-- Left accent line -->
+      <div class="absolute left-0 top-8 bottom-8 w-1 rounded-full accent-line"></div>
+      <!-- Decorative quote mark -->
+      <span class="absolute top-4 right-6 text-8xl md:text-9xl text-white/[0.04] font-serif leading-none pointer-events-none select-none">"</span>
+      <!-- Quote content -->
+      <div class="relative z-10">
+        <p class="quote-text text-xl md:text-2xl leading-relaxed font-light text-white/90 mb-6" id="quote-text"></p>
+        <div class="flex items-center justify-between">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-white/5 text-white/50 border border-white/5" id="quote-category"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Buttons -->
+    <div class="flex flex-wrap justify-center gap-2 md:gap-3 mb-6">
+      <button class="category-btn active px-5 py-2.5 rounded-full text-sm font-medium bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white/80" data-category="all">
+        <i class="fa-solid fa-shuffle mr-1.5 text-xs"></i>随机
+      </button>
+      <button class="category-btn px-5 py-2.5 rounded-full text-sm font-medium bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white/80" data-category="motivation">
+        <i class="fa-solid fa-fire mr-1.5 text-xs"></i>励志
+      </button>
+      <button class="category-btn px-5 py-2.5 rounded-full text-sm font-medium bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white/80" data-category="healing">
+        <i class="fa-solid fa-heart mr-1.5 text-xs"></i>治愈
+      </button>
+      <button class="category-btn px-5 py-2.5 rounded-full text-sm font-medium bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white/80" data-category="funny">
+        <i class="fa-regular fa-face-laugh mr-1.5 text-xs"></i>搞笑
+      </button>
+      <button class="category-btn px-5 py-2.5 rounded-full text-sm font-medium bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white/80" data-category="philosophy">
+        <i class="fa-regular fa-lightbulb mr-1.5 text-xs"></i>哲理
+      </button>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-center gap-3 mb-8">
+      <button id="random-btn" class="px-5 py-2.5 rounded-full text-sm font-medium bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white/90 transition-all duration-300">
+        <i class="fa-solid fa-dice mr-1.5"></i>换一句
+      </button>
+      <button id="copy-btn" class="copy-btn px-5 py-2.5 rounded-full text-sm font-medium bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white/90 transition-all duration-300">
+        <i class="fa-regular fa-copy mr-1.5"></i>复制
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-white/25">
+      共收录 <span id="total-count" class="text-white/40 font-medium">0</span> 条语录
+    </footer>
+
+  </main>
+
+  <script>
+    const quotes = [
+      // === 励志 ===
+      { id: 1, text: '每一个不曾起舞的日子，都是对生命的辜负。', category: 'motivation' },
+      { id: 2, text: '成功不是终点，失败也并非末日，最重要的是继续前进的勇气。', category: 'motivation' },
+      { id: 3, text: '种一棵树最好的时间是十年前，其次是现在。', category: 'motivation' },
+      { id: 4, text: '你所经历的每一个艰难时刻，都在塑造一个更强大的你。', category: 'motivation' },
+      { id: 5, text: '世界上只有一种真正的英雄主义，那就是认清生活真相后依然热爱生活。', category: 'motivation' },
+
+      // === 治愈 ===
+      { id: 6, text: '慢慢来，会好的，你又不差。', category: 'healing' },
+      { id: 7, text: '万物皆有裂痕，那是光照进来的地方。', category: 'healing' },
+      { id: 8, text: '不必太纠结于当下，也不必太忧虑未来，当你经历过一些事情后，眼前的风景已经不一样了。', category: 'healing' },
+      { id: 9, text: '今天的不开心就到此为止，明天依然光芒万丈。', category: 'healing' },
+      { id: 10, text: '你要相信，这个世界上总有人在偷偷爱着你。', category: 'healing' },
+
+      // === 搞笑 ===
+      { id: 11, text: '我的钱虽然不是大风刮来的，但很像大风刮走的。', category: 'funny' },
+      { id: 12, text: '别问我为什么单身，因为神仙和凡人谈恋爱是犯天条的。', category: 'funny' },
+      { id: 13, text: '我的人生目标很简单：吃得下，睡得着，笑得出来。', category: 'funny' },
+      { id: 14, text: '虽然我长得丑，但是我想得美啊。', category: 'funny' },
+      { id: 15, text: '每次称体重都觉得，我又不是气球，怎么说胖就胖呢。', category: 'funny' },
+
+      // === 哲理 ===
+      { id: 16, text: '我们听过无数的道理，却仍旧过不好这一生。', category: 'philosophy' },
+      { id: 17, text: '人生最遗憾的，莫过于轻易地放弃了不该放弃的，固执地坚持了不该坚持的。', category: 'philosophy' },
+      { id: 18, text: '真正的成熟，是学会与自己的不完美和解。', category: 'philosophy' },
+      { id: 19, text: '所谓成长，就是不断地在崩溃中自愈，在自愈中强大。', category: 'philosophy' },
+      { id: 20, text: '一个人知道自己为什么而活，就可以忍受任何一种生活。', category: 'philosophy' },
+    ];
+
+    const categories = {
+      all: { label: '每日一言', icon: 'fa-shuffle' },
+      motivation: { label: '励志', icon: 'fa-fire' },
+      healing: { label: '治愈', icon: 'fa-heart' },
+      funny: { label: '搞笑', icon: 'fa-face-laugh' },
+      philosophy: { label: '哲理', icon: 'fa-lightbulb' },
+    };
+
+    let currentCategory = 'all';
+    let currentQuote = null;
+
+    // DOM refs
+    const quoteText = document.getElementById('quote-text');
+    const quoteCategory = document.getElementById('quote-category');
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const totalCount = document.getElementById('total-count');
+
+    function getRandomQuote(category) {
+      const pool = category === 'all' ? quotes : quotes.filter(q => q.category === category);
+      if (pool.length === 0) return quotes[0];
+      let quote;
+      do {
+        quote = pool[Math.floor(Math.random() * pool.length)];
+      } while (pool.length > 1 && quote === currentQuote);
+      return quote;
+    }
+
+    function displayQuote(quote) {
+      currentQuote = quote;
+      quoteText.style.opacity = '0';
+      quoteText.style.transform = 'translateY(8px)';
+      setTimeout(() => {
+        quoteText.textContent = quote.text;
+        quoteCategory.textContent = categories[quote.category].label;
+        quoteText.style.opacity = '1';
+        quoteText.style.transform = 'translateY(0)';
+      }, 200);
+    }
+
+    function setActiveCategory(category) {
+      currentCategory = category;
+      categoryButtons.forEach(btn => {
+        if (btn.dataset.category === category) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    function copyQuote() {
+      const text = `"${currentQuote.text}" —— 每日一言（${categories[currentQuote.category].label}）`;
+      const fallbackCopy = () => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(showCopiedFeedback).catch(() => {
+          fallbackCopy();
+          showCopiedFeedback();
+        });
+      } else {
+        fallbackCopy();
+        showCopiedFeedback();
+      }
+    }
+
+    function showCopiedFeedback() {
+      copyBtn.classList.add('copied');
+      copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> 已复制';
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+        copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> 复制';
+      }, 1800);
+    }
+
+    function init() {
+      totalCount.textContent = quotes.length;
+      const quote = getRandomQuote('all');
+      displayQuote(quote);
+      setActiveCategory('all');
+    }
+
+    // Events
+    categoryButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+        setActiveCategory(category);
+        displayQuote(getRandomQuote(category));
+      });
+    });
+
+    document.getElementById('random-btn').addEventListener('click', () => {
+      setActiveCategory('all');
+      displayQuote(getRandomQuote('all'));
+    });
+
+    copyBtn.addEventListener('click', copyQuote);
+
+    init();
+  </script>
+</body>
+</html>
